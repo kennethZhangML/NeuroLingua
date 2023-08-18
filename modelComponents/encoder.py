@@ -17,4 +17,5 @@ class Encoder(nn.Module):
     def forward(self, src):
         embedded = self.dropout(self.embedding(src))
         outputs, (hidden, cell) = self.rnn(embedded)
+        print(outputs.shape)
         return outputs, (hidden, cell)

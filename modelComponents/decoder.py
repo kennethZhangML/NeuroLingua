@@ -21,15 +21,15 @@ class Decoder(nn.Module):
         input = input.unsqueeze(0)
         embedded = self.dropout(self.embedding(input))
         attn_weights = self.attention(hidden, encoder_outputs)
-
         context = attn_weights.bmm(encoder_outputs.transpose(0, 1))
 
-        context = context.transpose(0, 1)
-        embedded_context = torch.cat([embedded, context], 2)
-
+        context = context.squeeze(1)
+        embedded_context = torch.cat([embedded, context.unsqueeze(0)], 2)
         output, (hidden, cell) = self.rnn(embedded_context, (hidden, cell))
         output = output.squeeze(0)
 
         context = context.squeeze(1)
-        output = self.out(torch.cat([output, context], 2))
+        output = self.out(torch.cat([output, context], 1))
+        print(output.shape)
+        print(context.shape)
         return output, (hidden, cell)

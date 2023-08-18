@@ -63,7 +63,7 @@ model = seq2seq.Seq2Seq(enc, dec, device).to(device)
 
 optimizer = torch.optim.Adam(model.parameters(), lr = LR)
 TRG_PAD_IDX = TRG.vocab.stoi[TRG.pad_token]
-criterion = nn.CrossEntropyLoss(ignore_index=TRG_PAD_IDX)
+criterion = nn.CrossEntropyLoss(ignore_index = TRG_PAD_IDX)
 
 N_EPOCHS = 10
 for epoch in range(N_EPOCHS):
